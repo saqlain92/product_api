@@ -57,7 +57,7 @@ async function _delete(id) {
     else {
         return "product doesnt exist";
     }
-}
+};
 
 async function _update(id, productParams) {
     const product = await Product.findById(id, productParams);
@@ -91,4 +91,4 @@ module.exports = {
     _delete,
     _update,
     upload
-}
+};
