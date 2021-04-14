@@ -1,15 +1,13 @@
 const mongoose = require('mongoose');
 const Product = require('./model');
 const multer = require('multer');
-var uploadDir = require('path').join(__dirname, '/uploads/');
-const path = require('path');
+var uploadDir = require('../index');
 var fs = require('fs');
 
 async function add(req) {
     try {
 
         if (req.body.name) {
-            let baseDir = 'E:/Vintega Projects/testApi/uploads/';
             if (req.file) {
                 fileName = req.file.mimetype && req.file.mimetype.split("/")
 
