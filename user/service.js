@@ -1,19 +1,25 @@
-const User = require('./model');
-const jwt = require('jsonwebtoken');
+const User   = require('./model');
+const jwt    = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const secret = "its a new day";
-const joi = require('joi');
+const joi    = require('joi');
+const config = require('../config.json');
+const { mailer } = require('../product/service');
 
 async function createUser(body){
     
         const user = await User.findOne({user : body.user});
         console.log(user);
          if(user){
-             throw "user already exist";
+             return "user already exist";
         }
         else{
         const _user = new User(body);
-        return await _user.save();
+         await _user.save();
+         params = {
+             subject : "New User",
+             message : `A user naming ${body.user} have been added successfully`
+         };
+         return await mailer(params);
         }
 
 
@@ -23,7 +29,7 @@ async function authenticate(body){
     if(body.user && body.password){
         const user = await User.findOne({user : body.user});
         if(user && await bcrypt.compareSync(body.password , user.password)){
-            const token = jwt.sign(user.toJSON(), secret);
+            const token = jwt.sign(user.toJSON(), config.secret);
             return {
                 token
             };
@@ -46,7 +52,7 @@ function validateRequest(req, res, next, schema) {
         stripUnknown : true
     };
 
-    const { error , value } = schema.validate(req.body , options);
+    const { error } = schema.validate(req.body , options);
 
     if(error){
         res.status(400).send(`validation error : ${error.details.map(x=> x.message).join(', ')}  `);

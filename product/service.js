@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-const Product = require('./model');
-const multer = require('multer');
-var uploadDir = require('../index');
-var fs = require('fs');
+const Product    = require('./model');
+const multer     = require('multer');
+var uploadDir    = require('path').join(__dirname,'../uploads/');
+const joi        = require('joi');
+const nodemailer = require('nodemailer');
+const  config    = require('../config.json');
 
 async function add(req) {
     try {
@@ -80,7 +81,63 @@ const storage = multer.diskStorage({
     }
 });
 
+
+function validate(req, res, next) {
+    const schema = joi.object({
+        name: joi.string().required(),
+        descrip: joi.string().required()
+    });
+    validateRequest(req, res, next, schema);
+}
+
+function validateRequest(req, res, next, schema) {
+    const options = {
+        abortEarly: false,
+        allowUnknown: true,
+        stripUnknown: true
+    };
+
+    const { error, value } = schema.validate(req.body, options);
+
+    if (error) {
+        res.status(400).send(`validation error : ${error.details.map(x => x.message).join(', ')}  `);
+    }
+    else {
+        next();
+    }
+}
+
+async function filter(params){
+    return await Product.find({descrip : params});
+}
+
 var upload = multer({ storage: storage });
+
+async function mailer(params) {
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+        user: config.user,
+        pass: config.pass
+    }
+});
+console.log(params);
+var mailOptions = {
+    from: config.user,
+    to: '181012@students.au.edu.pk',
+    subject: params.subject,
+    text: params.message
+};
+
+      await transporter.sendMail(mailOptions);
+      return {message : "added sucessfully"};
+
+}
+
 
 module.exports = {
     add,
@@ -88,5 +145,8 @@ module.exports = {
     getOne,
     _delete,
     _update,
-    upload
+    upload,
+    validate,
+    mailer,
+    filter
 };
