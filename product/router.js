@@ -1,7 +1,7 @@
 const express = require('express');
 const Router  = express.Router();
 const product = require('./service');
-const user    = require('../user/service');
+
 
 Router.post('/products', product.upload.single('img'),product.validate, (req, res)=>{
     product.add(req).
@@ -44,22 +44,6 @@ Router.post('/mail' , (req, res)=>{
     product.mailer().
     then(result => res.status(200).send(result)).
     catch(err => res.status(400).send(err));
-})
-Router.post('/users', user.validate, async( req, res)=>{
-   const result = await user.createUser(req.body);
-   return res.status(200).send(result);
-} );
-
-Router.get('/users', (req, res)=>{
-    user.getAll(req.body).
-    then(result=>res.status(200).send(result)).
-    catch(err=>res.status(400).send(err));
-})
-
-Router.post('/login', (req,res)=>{
-    user.authenticate(req.body).
-    then(user=> res.status(200).send(user)).
-    catch(err=>res.status(400).send(err));
 })
 
 
