@@ -1,17 +1,19 @@
-const User   = require('./model');
+const User         = require('./model');
+const{ ErrorHandler} = require('../helpers/error');
 
-const jwt    = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const joi    = require('joi');
-const config = require('../config.json');
-const { mailer } = require('../product/service');
+const jwt          = require('jsonwebtoken');
+const bcrypt       = require('bcrypt');
+const joi          = require('joi');
+const config       = require('../config.json');
+const { mailer }   = require('../product/service');
 
-async function createUser(body){
+async function createUser(body, next){
     
-        const user = await User.findOne({user : body.email});
+        const user = await User.findOne({email : body.email});
         console.log(user);
          if(user){
-             return "user already exist";
+            const err = new ErrorHandler('user already exist');
+            next(err);
         }
         else{
         const _user = new User(body);
@@ -28,7 +30,8 @@ async function createUser(body){
 function validate(req , res, next) {
     const schema =  joi.object({
         email : joi.string().required(),
-        password : joi.string().min(6).max(12).required()
+        password : joi.string().min(6).max(12).required(),
+        role : joi.string().valid('Admin', 'Customer').required()
     });
     validateRequest(req , res, next, schema);
 }
@@ -50,11 +53,35 @@ function validateRequest(req, res, next, schema) {
     }
 }
 
-async function getAll(body) {
-    return await User.find();    
+async function getAll() {
+    return await User.find(); 
     }
 
 
+async function forgetPass(body, next) {
+    try{
+    if (body.email) {
+        const user = await User.findOne({ email: body.email });
+        if (user) {
+            console.log(user.password);
+           const params = {
+                email: user.email,
+                subject: "Forgot Password",
+                message: `Dear ${user.email} your password is ${user.password}`
+            }
+            console.log(user.email);
+         await mailer(params);
+        }
+        else throw new ErrorHandler(404,'no user found');
+    }
+    else {
+        throw new ErrorHandler(404, 'Email is required');
+    }
+}
+catch (err){
+    next(err);
+}
+}
 
 // async function authenticate(body){
 //     if(body.user && body.password){
@@ -72,5 +99,6 @@ async function getAll(body) {
      createUser,
 //     authenticate,
     validate,
-     getAll
+     getAll,
+     forgetPass
  }

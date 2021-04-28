@@ -9,6 +9,7 @@ const User          = require('./model');
 passport.use(new localStrategy({
   usernameField: 'email',
   passwordField: 'password'
+  //passReqToCallback: true
 }, 
 function (email, password, cb) {
   //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
@@ -35,6 +36,7 @@ async function (jwtPayload, cb) {
   //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
   await  User.findById(jwtPayload._id).exec()
       .then(user => {
+        console.log(`here I am ${user}`);
           return cb(null, user);
       })
       .catch(err => {

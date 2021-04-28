@@ -5,7 +5,7 @@ const joi        = require('joi');
 const nodemailer = require('nodemailer');
 const  config    = require('../config.json');
 
-async function add(req) {
+async function add(req, next) {
     try {
 
         if (req.body.name) {
@@ -33,13 +33,13 @@ async function add(req) {
 
     }
     catch (err) {
-        return err;
+        next(err);
     }
 }
 
-async function getAll(l = 5) {
+async function getAll() {
 
-    return await Product.find().limit(l);
+    return await Product.find().limit();
 }
 
 async function getOne(id) {
@@ -59,12 +59,8 @@ async function _delete(id) {
 };
 
 async function _update(id, productParams) {
-    const product = await Product.findById(id, productParams);
-    if (product && productParams) {
-        Object.assign(product, productParams);
-        return await product.save();
-    }
-    return "invalid arguments";
+    const product = await Product.findByIdAndUpdate(id, productParams, {new : true});
+    return product;
 }
 
 
