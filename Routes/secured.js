@@ -4,17 +4,16 @@ const service   = require('../user/service');
 const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
 
-Router.get('/user', authorize("Customer"), (req, res, next) => {
-  service.getAll( next ).
-    then(users => res.status(200).send(users)).
-    catch(err => next(err));
-})
 
 Router.post('/products',authorize("Admin"), product.upload.single('img'),product.validate, (req, res, next)=>{
     product.add(req, next).
     then(result => res.status(200).send({result})).
     catch(err => next(err));
 });
+
+Router.post('/products/buy', authorize("Customer"), (req, res, next)=>{
+    res.status(200).send("You are authorized to buy products");
+})
 
 Router.get('/products' ,  (req, res, next)=>{
     product.getAll().

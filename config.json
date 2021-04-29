@@ -2,7 +2,7 @@
     "connectionString": "mongodb+srv://saqlain:92002400@mycluster.3jf9d.mongodb.net/test",
     "secret": "Its a new day",
     "port": "3000",
-    "user": "haidrysaqlain92@gmail.com",
+    "email": "haidrysaqlain92@gmail.com",
     "pass": "personal@181012"
     
 }

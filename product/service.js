@@ -1,6 +1,6 @@
 const Product    = require('./model');
 const multer     = require('multer');
-var uploadDir    = require('path').join(__dirname,'../uploads/');
+//var uploadDir    = require('path').join(__dirname,'../static/');
 const joi        = require('joi');
 const nodemailer = require('nodemailer');
 const  config    = require('../config.json');
@@ -14,19 +14,20 @@ async function add(req, next) {
 
                 _product = new Product({
                     name: req.body.name,
-                    descrip: req.body.descrip,
-                    img: uploadDir + req.file.filename
+                    description: req.body.description,
+                    img: "/static/" + req.file.filename
+                   // img: uploadDir + req.file.filename
 
                 });
             }
             else {
                 _product = new Product({
                     name: req.body.name,
-                    descrip: req.body.descrip
+                    description: req.body.description
                 });
 
             }
-            console.log(uploadDir);
+    
             console.log(_product.img);
             return await _product.save();
         }
@@ -81,7 +82,7 @@ const storage = multer.diskStorage({
 function validate(req, res, next) {
     const schema = joi.object({
         name: joi.string().required(),
-        descrip: joi.string().required()
+        description: joi.string().required()
     });
     validateRequest(req, res, next, schema);
 }
@@ -104,7 +105,7 @@ function validateRequest(req, res, next, schema) {
 }
 
 async function filter(params){
-    return await Product.find({descrip : params});
+    return await Product.find({description : params});
 }
 
 var upload = multer({ storage: storage });
@@ -117,14 +118,14 @@ const transporter = nodemailer.createTransport({
     secure: false,
     requireTLS: true,
     auth: {
-        user: config.user,
+        user: config.email,
         pass: config.pass
     }
 });
 console.log(params);
 var mailOptions = {
-    from: config.user,
-    to: '181012@students.au.edu.pk',
+    from: config.email,
+    to: params.email || '181012@students.au.edu.pk',
     subject: params.subject,
     text: params.message
 };

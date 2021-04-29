@@ -14,7 +14,8 @@ require('./user/passport');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(uploadDir));
+app.use( express.static(uploadDir));
+app.use('/static', express.static('uploads'));
 app.use(cors());
 app.use(morgan('tiny'));
 app.options("*", cors());

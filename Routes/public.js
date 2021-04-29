@@ -33,6 +33,11 @@ Router.post('/login', (req, res, next) => {
     })(req, res);
   });
   
+  Router.get('/users', (req, res, next) => {
+    service.getAll( next ).
+      then(users => res.status(200).send(users)).
+      catch(err => next(err));
+  })
   
   Router.post('/signUp',  service.validate, (req, res, next) => {
     service.createUser(req.body, next).

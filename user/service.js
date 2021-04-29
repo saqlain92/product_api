@@ -19,6 +19,7 @@ async function createUser(body, next){
         const _user = new User(body);
          await _user.save();
          params = {
+             
              subject : "New User",
              message : `A new user ${body.email} have been added successfully`
          };
