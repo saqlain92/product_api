@@ -38,9 +38,19 @@ async function add(req, next) {
     }
 }
 
-async function getAll() {
 
-    return await Product.find().limit();
+
+async function getAll(req) {
+
+    const options = {
+        page: req.query.page || 1,
+        limit: req.query.limit || 2,
+        collation: {
+          locale: 'en',
+        },
+      };
+   return await Product.paginate({}, options)
+
 }
 
 async function getOne(id) {
@@ -64,6 +74,9 @@ async function _update(id, productParams) {
     return product;
 }
 
+async function track(id){
+    return `the id number is ${id}`;
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -145,5 +158,6 @@ module.exports = {
     upload,
     validate,
     mailer,
-    filter
+    filter,
+    track
 };

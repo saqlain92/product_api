@@ -27,7 +27,7 @@ Router.get('/products/:id', (req,res,next)=>{
     catch(err=> next(err));
 });
 
-Router.delete('/products/:id/delete',authorize("Admin"), (req, res, next)=>{
+Router.delete('/products/:id',authorize("Admin"), (req, res, next)=>{
     product._delete(req.params.id).
     then(result => res.status(200).send({result})).
     catch(err => next(err));
@@ -43,6 +43,12 @@ Router.get('/products/filter/:des', (req, res, next)=>{
     product.filter(req.params.des).
     then(results => res.status(200).send(results)).
     catch(err => next(err));
+})
+
+Router.put('/password', async(req, res, next)=>{
+     service.changePass(req, next).
+    then(result =>  res.status(200).send(result)).
+    catch(err => res.status(400).send(err))
 })
 
 module.exports = Router;

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {ErrorHandler} = require('./error');
 
 const authorize = (roles) =>{
     return (req, res, next)=>{
@@ -9,7 +10,8 @@ const authorize = (roles) =>{
             if(roles.includes(user.role)){
                 next();
             } else {
-                return res.status(400).send("unathorized for this route");
+                const error = new ErrorHandler('this user is unauthorized for this route') ;
+                next(error);
             }
     };
 };

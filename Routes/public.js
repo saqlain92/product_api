@@ -8,11 +8,10 @@ const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
 
 Router.get('/products' ,  (req, res, next)=>{
-    product.getAll().
+    product.getAll(req).
     then(results=> res.status(200).send(results)).
     catch(err=> next(err));
 });
-
 
 Router.post('/login', (req, res, next) => {
     passport.authenticate('local', { session: false }, (err, user, info) => {
@@ -34,7 +33,7 @@ Router.post('/login', (req, res, next) => {
   });
   
   Router.get('/users', (req, res, next) => {
-    service.getAll( next ).
+    service.getAll(next).
       then(users => res.status(200).send(users)).
       catch(err => next(err));
   })
@@ -56,4 +55,12 @@ Router.post('/login', (req, res, next) => {
     then(results => res.status(200).send(results)).
     catch(err => next(err));
 })
+
+
+Router.get('/products/track/:id', (req, res, next)=>{
+  product.track(req.params.id).
+  then(results => res.status(200).send(results)).
+  catch(err => next(err));
+})
+
   module.exports = Router;

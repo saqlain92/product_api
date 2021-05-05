@@ -1,87 +1,99 @@
-const User         = require('./model');
-const{ ErrorHandler} = require('../helpers/error');
+const User = require('./model');
+const { ErrorHandler } = require('../helpers/error');
+const joi = require('joi');
+const jwt = require('jsonwebtoken');
+const { mailer } = require('../product/service');
+const { findByIdAndUpdate } = require('./model');
 
-const jwt          = require('jsonwebtoken');
-const bcrypt       = require('bcrypt');
-const joi          = require('joi');
-const config       = require('../config.json');
-const { mailer }   = require('../product/service');
+async function createUser(body, next) {
 
-async function createUser(body, next){
-    
-        const user = await User.findOne({email : body.email});
-        console.log(user);
-         if(user){
-            const err = new ErrorHandler('user already exist');
-            next(err);
-        }
-        else{
+    const user = await User.findOne({ email: body.email });
+    console.log(user);
+    if (user) {
+        const err = new ErrorHandler('user already exist');
+        next(err);
+    }
+    else {
         const _user = new User(body);
-         await _user.save();
-         params = {
-             
-             subject : "New User",
-             message : `A new user ${body.email} have been added successfully`
-         };
-         return await mailer(params);
-        }
+        await _user.save();
+        params = {
+            subject: "New User",
+            message: `A new user ${body.email} have been added successfully`
+        };
+        return await mailer(params);
+    }
 
 }
 
-function validate(req , res, next) {
-    const schema =  joi.object({
-        email : joi.string().required(),
-        password : joi.string().min(6).max(12).required(),
-        role : joi.string().valid('Admin', 'Customer').required()
+function validate(req, res, next) {
+    const schema = joi.object({
+        email: joi.string().required(),
+        password: joi.string().min(6).max(12).required(),
+        role: joi.string().valid('Admin', 'Customer').required()
     });
-    validateRequest(req , res, next, schema);
+    validateRequest(req, res, next, schema);
 }
 
 function validateRequest(req, res, next, schema) {
     const options = {
-        abortEarly : false,
-        allowUnknown : true,
-        stripUnknown : true
+        abortEarly: false,
+        allowUnknown: true,
+        stripUnknown: true
     };
 
-    const { error } = schema.validate(req.body , options);
+    const { error } = schema.validate(req.body, options);
 
-    if(error){
-        res.status(400).send(`validation error : ${error.details.map(x=> x.message).join(', ')}  `);
+    if (error) {
+        res.status(400).send(`validation error : ${error.details.map(x => x.message).join(', ')}  `);
     }
-    else{
+    else {
         next();
     }
 }
 
 async function getAll() {
-    return await User.find(); 
-    }
+    return await User.find();
+}
+
+async function changePass(req, next) {
+
+        if (req.headers.authorization) {
+            const authHeader = req.headers.authorization;
+            const token = authHeader.split(' ')[1];
+            const user = jwt.verify(token, 'your_jwt_secret');
+            if (user.password === req.body.old_password) {
+                return await User.findByIdAndUpdate(user._id, { password: req.body.new_password }, { new: true })
+            }
+            else throw new ErrorHandler("wrong password");
+        }
+        else throw new ErrorHandler("authentication required");
+  
+}
 
 
 async function forgetPass(body, next) {
-    try{
-    if (body.email) {
-        const user = await User.findOne({ email: body.email });
-        if (user) {
-            console.log(user.password);
-           const params = {
-                email: user.email,
-                subject: "Forgot Password",
-                message: `Dear ${user.email} your password is ${user.password}`
+    try {
+        if (body.email) {
+            const user = await User.findOne({ email: body.email });
+            if (user) {
+                console.log(user.password);
+                const params = {
+                    email: user.email,
+                    subject: "Forgot Password",
+                    message: `Dear ${user.email} your password is ${user.password}`
+                }
+                console.log(user.email);
+                await mailer(params);
             }
-            console.log(user.email);
-         await mailer(params);
+            else throw new ErrorHandler('no user found');
         }
-        else throw new ErrorHandler(404,'no user found');
+        else {
+            throw new ErrorHandler('Email is required');
+        }
     }
-    else {
-        throw new ErrorHandler(404, 'Email is required');
+    catch (err) {
+        next(err);
     }
-}
-catch (err){
-    next(err);
-}
 }
 
 // async function authenticate(body){
@@ -96,10 +108,11 @@ catch (err){
 //     }
 // }
 
- module.exports = {
-     createUser,
-//     authenticate,
+module.exports = {
+    createUser,
+    //   authenticate,
     validate,
-     getAll,
-     forgetPass
- }
+    getAll,
+    forgetPass,
+    changePass
+}
