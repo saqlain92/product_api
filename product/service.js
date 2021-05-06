@@ -38,8 +38,6 @@ async function add(req, next) {
     }
 }
 
-
-
 async function getAll(req) {
 
     const options = {
@@ -49,15 +47,34 @@ async function getAll(req) {
           locale: 'en',
         },
       };
-   return await Product.paginate({}, options)
 
+      const {docs} = await Product.paginate({}, options);
+      console.log(typeof docs);
+
+      if(req.body && req.body.sort == "asc"){
+          const key = req.body.key;
+          docs.sort((a,b) => a[key] > b[key] && 1||-1 );
+          return docs;
+      }
+      if(req.body && req.body.sort == "desc"){
+        const key = req.body.key;
+        
+        docs.sort((a,b) => a[key] < b[key] && 1||-1 );
+        return docs;
+    }
+
+    else return docs;
+   
 }
+
+
 
 async function getOne(id) {
     const product = await Product.findById(id);
     if (product) return product;
     else return { error: "product doesnt exist" };
 }
+
 
 async function _delete(id) {
     if (await Product.findById(id)) {

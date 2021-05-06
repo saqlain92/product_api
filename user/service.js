@@ -57,17 +57,11 @@ async function getAll() {
 
 async function changePass(req, next) {
 
-        if (req.headers.authorization) {
-            const authHeader = req.headers.authorization;
-            const token = authHeader.split(' ')[1];
-            const user = jwt.verify(token, 'your_jwt_secret');
+            const user = req.user;
             if (user.password === req.body.old_password) {
                 return await User.findByIdAndUpdate(user._id, { password: req.body.new_password }, { new: true })
             }
             else throw new ErrorHandler("wrong password");
-        }
-        else throw new ErrorHandler("authentication required");
-  
 }
 
 

@@ -12,6 +12,7 @@ const jwt           = require('jsonwebtoken');
 const app           = new express();
 const secureRoutes  = require('./Routes/secured');
 const {handleError} = require('./helpers/error');
+const { checkToken }= require('./helpers/auth');
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 require('./user/passport');
@@ -35,7 +36,8 @@ app.use(morgan('User: :user  IP: :remote-addr :remote-user  Method::method    UR
 app.options("*", cors());
 app.use( require('./Routes/public'));
 // to be accessible with token
-app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
+app.use('/user', checkToken , secureRoutes);
+// app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 
 mongoose.connect(config.connectionString,{ useNewUrlParser: true } )
