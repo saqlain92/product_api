@@ -95,6 +95,7 @@ async function phone_Login(body){
         if (user){
             const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
             return {
+                user,
                 success : true,
                 token
             }
@@ -119,7 +120,7 @@ async function phone_Login(body){
 async function delete_Seller(req) {
     if(req.params.id){
         const seller = await User.findByIdAndDelete(req.params.id);
-        await Product.remove({_id : {$in : seller.products}});
+        if(seller.role == "Seller") await Product.deleteMany({ owner:seller._id });
         return "message : deleted successfull";
     }
     else throw new ErrorHandler("200","false","id is not supplied");
