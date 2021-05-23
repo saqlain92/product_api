@@ -1,9 +1,11 @@
 const Product    = require('./model');
 const multer     = require('multer');
-//var uploadDir    = require('path').join(__dirname,'../static/');
 const joi        = require('joi');
 const nodemailer = require('nodemailer');
+const User       = require('../user/model');
 const  config    = require('../config.json');
+const authorize  = require('../helpers/authorize');
+const { ErrorHandler } = require('../helpers/error');
 
 async function add(req, next) {
     try {
@@ -15,21 +17,28 @@ async function add(req, next) {
                 _product = new Product({
                     name: req.body.name,
                     description: req.body.description,
-                    img: "/static/" + req.file.filename
-                   // img: uploadDir + req.file.filename
+                    img: "/static/" + req.file.filename,
+                    owner: req.user._id,
+                    price: req.body.price
+                    // img: uploadDir + req.file.filename
 
                 });
             }
             else {
                 _product = new Product({
                     name: req.body.name,
-                    description: req.body.description
+                    description: req.body.description,
+                    owner: req.user._id
                 });
 
             }
-    
+
             console.log(_product.img);
-            return await _product.save();
+            const product = await _product.save();
+            const _user = await User.findById(req.user._id);
+            _user.products.push(product._id);
+            _user.save();
+            return _user;
         }
 
     }
@@ -37,34 +46,45 @@ async function add(req, next) {
         next(err);
     }
 }
+//     Product Search
+async function _search(req) {
+    const string = req.query.string;
+    const field = req.query.field;
+    const result = await Product.find({ [field]: { $regex: string, $options: "i" } });
+    if (result) return { success: "true", status: "200", message: `${result.length} documents found`, docs: result };
+};
 
+
+//      Get All Products
 async function getAll(req) {
-
     const options = {
         page: req.query.page || 1,
-        limit: req.query.limit || 2,
+        limit: req.query.limit || 10,
         collation: {
-          locale: 'en',
+            locale: 'en',
         },
-      };
+        sort:req.query.field
+    };
 
-      const {docs} = await Product.paginate({}, options);
-      console.log(typeof docs);
+    const { docs } = await Product.paginate({}, options);
+    return docs;
 
-      if(req.body && req.body.sort == "asc"){
-          const key = req.body.key;
-          docs.sort((a,b) => a[key] > b[key] && 1||-1 );
-          return docs;
-      }
-      if(req.body && req.body.sort == "desc"){
-        const key = req.body.key;
-        
-        docs.sort((a,b) => a[key] < b[key] && 1||-1 );
-        return docs;
-    }
+    // console.log(typeof docs);
 
-    else return docs;
-   
+    // //  Sorting Products
+    // if (req.body && req.body.sort == "asc") {
+    //     const key = req.body.key;
+    //     docs.sort((a, b) => a[key] > b[key] && 1 || -1);
+    //     return docs;
+    // }
+    // if (req.body && req.body.sort == "desc") {
+    //     const key = req.body.key;
+
+    //     docs.sort((a, b) => a[key] < b[key] && 1 || -1);
+    //     return docs;
+    // }
+
+    // else return docs;
 }
 
 
@@ -72,7 +92,7 @@ async function getAll(req) {
 async function getOne(id) {
     const product = await Product.findById(id);
     if (product) return product;
-    else return { error: "product doesnt exist" };
+    else throw new ErrorHandler("200", "false", "product doesnt exist") ;
 }
 
 
@@ -82,16 +102,22 @@ async function _delete(id) {
         return "deleted successfully";
     }
     else {
-        return "product doesnt exist";
+         throw new ErrorHandler("200", "false", "product doesnt exist") ;
     }
 };
 
+async function sellerProducts(req){
+ 
+    return await User.find({_id : req.user._id}).populate('products');
+    
+}
+
 async function _update(id, productParams) {
-    const product = await Product.findByIdAndUpdate(id, productParams, {new : true});
+    const product = await Product.findByIdAndUpdate(id, productParams, { new: true });
     return product;
 }
 
-async function track(id){
+async function track(id) {
     return `the id number is ${id}`;
 }
 
@@ -134,35 +160,56 @@ function validateRequest(req, res, next, schema) {
     }
 }
 
-async function filter(params){
-    return await Product.find({description : params});
+async function filter(params) {
+    return await Product.find({ description: params });
 }
 
 var upload = multer({ storage: storage });
 
 async function mailer(params) {
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-        user: config.email,
-        pass: config.pass
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+            user: config.email,
+            pass: config.pass
+        }
+    });
+    console.log(params);
+    var mailOptions = {
+        from: config.email,
+        to: params.email || '181012@students.au.edu.pk',
+        subject: params.subject,
+        text: params.message
+    };
+
+    await transporter.sendMail(mailOptions);
+    return { message: "added sucessfully" };
+
+}
+
+async function populate (params) {
+    const products = await Product.find().populate('owner');
+    return products;
+}
+
+async function buy(req){
+  const product = await Product.findById(req.params.id);
+  const buyer    = await User.findById(req.user._id);
+  const seller    = await User.findById(product.owner);
+  if(product && buyer && seller){
+    if(buyer.amount < product.price) throw new ErrorHandler("200","false","unsufficient balance")
+    else{
+        buyer.amount -= product.price;
+        seller.amount += product.price;
+        await buyer.save();
+        await seller.save();
+        return {"message" : "bought sucessfully"};
     }
-});
-console.log(params);
-var mailOptions = {
-    from: config.email,
-    to: params.email || '181012@students.au.edu.pk',
-    subject: params.subject,
-    text: params.message
-};
-
-      await transporter.sendMail(mailOptions);
-      return {message : "added sucessfully"};
-
+  }
 }
 
 
@@ -176,5 +223,8 @@ module.exports = {
     validate,
     mailer,
     filter,
-    track
+    track,
+    _search,
+    sellerProducts,
+    buy
 };

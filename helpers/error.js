@@ -1,31 +1,36 @@
 const mongoose = require('mongoose');
+const jwt      = require('jsonwebtoken');
 class ErrorHandler extends Error {
-    constructor( message) {
-      super();
-      Error.captureStackTrace(this, this.constructor);
-      this.message = message;
-    }
+  constructor(status, success, message) {
+    super();
+    Error.captureStackTrace(this, this.constructor);
+    this.message = message;
+    this.status = status;
+    this.success = success;
   }
+}
 
-  const handleError = (err, res) => {
+const handleError = (err, res) => {
 
-    if(err instanceof mongoose.Error) {
-      res.status(404).json({
-        status: "error",
-        message : "mongoose error",
-        kind : err.kind,
-      });
-      }
-  
-    const { message } = err;
-    res.status(404).json({
+  if (err instanceof mongoose.Error) {
+    
+    res.status(500).json({  
+      status: "error",
+      message: "mongoose error",
+      kind: err.kind,
+    });
+  }
+  else {
+    const { message, status, success } = err;
+    res.status(status || 500).json({
+      success: success,
       status: "error",
       message,
-      err
     });
-  };
-
-  module.exports = {
-    ErrorHandler,
-    handleError
   }
+};
+
+module.exports = {
+  ErrorHandler,
+  handleError
+}

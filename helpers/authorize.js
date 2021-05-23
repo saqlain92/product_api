@@ -7,7 +7,7 @@ const authorize = (roles) =>{
             if(roles.includes(req.user.role)){
                 next();
             } else {
-                const error = new ErrorHandler('this user is unauthorized for this route') ;
+                const error = new ErrorHandler("200", "false" ,'this user is unauthorized for this route') ;
                 next(error);
             }
     };

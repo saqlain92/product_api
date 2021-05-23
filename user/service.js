@@ -1,20 +1,20 @@
 const User = require('./model');
-const { ErrorHandler } = require('../helpers/error');
+const { ErrorHandler} = require('../helpers/error');
 const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const { mailer } = require('../product/service');
-const { findByIdAndUpdate } = require('./model');
+const Product = require('../product/model');
 
 async function createUser(body, next) {
-
     const user = await User.findOne({ email: body.email });
     console.log(user);
     if (user) {
-        const err = new ErrorHandler('user already exist');
+        const err = new ErrorHandler("200","false",'user already exist');
         next(err);
     }
     else {
         const _user = new User(body);
+        console.log(_user);
         await _user.save();
         params = {
             subject: "New User",
@@ -22,14 +22,14 @@ async function createUser(body, next) {
         };
         return await mailer(params);
     }
-
 }
 
 function validate(req, res, next) {
     const schema = joi.object({
         email: joi.string().required(),
         password: joi.string().min(6).max(12).required(),
-        role: joi.string().valid('Admin', 'Customer').required()
+        role: joi.string().valid('Admin', 'Customer', 'Seller').required(),
+        phone: joi.number().required()
     });
     validateRequest(req, res, next, schema);
 }
@@ -56,12 +56,11 @@ async function getAll() {
 }
 
 async function changePass(req, next) {
-
             const user = req.user;
             if (user.password === req.body.old_password) {
                 return await User.findByIdAndUpdate(user._id, { password: req.body.new_password }, { new: true })
             }
-            else throw new ErrorHandler("wrong password");
+            else throw new ErrorHandler("200","false","wrong password");
 }
 
 
@@ -79,15 +78,30 @@ async function forgetPass(body, next) {
                 console.log(user.email);
                 await mailer(params);
             }
-            else throw new ErrorHandler('no user found');
+            else throw new ErrorHandler("200","false",'no user found');
         }
         else {
-            throw new ErrorHandler('Email is required');
+            throw new ErrorHandler("200","false",'Email is required');
         }
     }
     catch (err) {
         next(err);
     }
+}
+
+async function phone_Login(body){
+    if (body.phone){
+        const user = await User.findOne({phone: body.phone});
+        if (user){
+            const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+            return {
+                success : true,
+                token
+            }
+        } 
+        throw new ErrorHandler("200", "false", "user doesnt exist");
+    }
+    throw new ErrorHandler("200", "false", "Phone number is required"); 
 }
 
 // async function authenticate(body){
@@ -102,11 +116,22 @@ async function forgetPass(body, next) {
 //     }
 // }
 
+async function delete_Seller(req) {
+    if(req.params.id){
+        const seller = await User.findByIdAndDelete(req.params.id);
+        await Product.remove({_id : {$in : seller.products}});
+        return "message : deleted successfull";
+    }
+    else throw new ErrorHandler("200","false","id is not supplied");
+}
+
 module.exports = {
     createUser,
-    //   authenticate,
+//  authenticate,
     validate,
     getAll,
     forgetPass,
-    changePass
+    changePass,
+    delete_Seller,
+    phone_Login
 }

@@ -12,21 +12,27 @@ const schema = mongoose.Schema({
     },
     role: {
         type: String
-    }
+    },
+    amount : Number,
+    phone  : Number,
+    products: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
+     }] 
 })
 
-// schema.pre('save', function (next) {
-//     try {
-//         if (this.isNew || this.isModified('password')) {
-//             const hash = bcrypt.hashSync(this.password, 10);
-//             this.password = hash;
-//             return next();
-//         }
-//     }
-//     catch (error) {
-//         return next(error);
-//     }
-// })
+schema.pre('save', function (next) {
+    try {
+        if (this.isNew) {
+            const balance = this.amount || 0;
+            this.amount = balance;
+            return next();
+        }
+    }
+    catch (error) {
+        next(error);
+    }
+})
 
 schema.methods.isValidPassword = async function(password){
     const user = this;

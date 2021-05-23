@@ -9,14 +9,14 @@ const checkToken = async function (req, res, next)  {
             const token = authHeader.split(' ')[1];
             const user = jwt.verify(token, 'your_jwt_secret');
             if (!user){
-                const err = new ErrorHandler("invalid token");
+                const err = new ErrorHandler("200","false","invalid token");
                 next(err);
             }
             req.user = user;
             next();
     }
     else{
-    next(new ErrorHandler("token required"));
+    next(new ErrorHandler("200","false","token required"));
     }
 }
 module.exports = { checkToken };

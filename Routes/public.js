@@ -13,6 +13,18 @@ Router.get('/products' ,  (req, res, next)=>{
     catch(err=> next(err));
 });
 
+Router.get('/products/search', (req ,res, next)=>{
+  product._search(req).
+  then(result => {res.status(200).send(result)}).
+  catch(err => next(err));
+} )
+
+Router.post('/phone_Login', (req, res, next)=>{
+  service.phone_Login(req.body).
+  then(result => res.send(result)).
+  catch(err => next(err));
+})
+
 Router.post('/login', (req, res, next) => {
     passport.authenticate('local', { session: false }, (err, user, info) => {
       if (err || !user) {
@@ -26,7 +38,7 @@ Router.post('/login', (req, res, next) => {
           res.send(err);
         }
         // generate a signed son web token with the contents of user object and return it in the response
-        const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+        const token = jwt.sign(user.toJson(), 'your_jwt_secret');
         return res.json({ user, token });
       });
     })(req, res);

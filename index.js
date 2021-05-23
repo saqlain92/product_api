@@ -9,11 +9,12 @@ var path            = require('path');
 var uploadDir       = require('path').join(__dirname, '/uploads');
 const cors          = require('cors');
 const jwt           = require('jsonwebtoken');
-const app           = new express();
 const secureRoutes  = require('./Routes/secured');
 const {handleError} = require('./helpers/error');
 const { checkToken }= require('./helpers/auth');
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
+const app           = new express();
 
 require('./user/passport');
 
@@ -40,9 +41,9 @@ app.use('/user', checkToken , secureRoutes);
 // app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 
-mongoose.connect(config.connectionString,{ useNewUrlParser: true } )
+mongoose.connect(config.connectionString,{ useNewUrlParser: true, useUnifiedTopology: true } )
     .then(console.log("connection with db successfull"))
-    .catch((err) => next(err));
+    .catch((err) => res.send(err));
 //error handler
     app.use((err, req, res, next) => {
         handleError(err, res);

@@ -4,19 +4,25 @@ const service   = require('../user/service');
 const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
 
-
-Router.post('/products',authorize("Admin"), product.upload.single('img'),product.validate, (req, res, next)=>{
+Router.post('/products',authorize("Seller"), product.upload.single('img'),product.validate, (req, res, next)=>{
     product.add(req, next).
     then(result => res.status(200).send({result})).
     catch(err => next(err));
 });
+
 
 Router.post('/products/buy', authorize("Customer"), (req, res, next)=>{
     res.status(200).send("You are authorized to buy products");
 })
 
 Router.get('/products' ,  (req, res, next)=>{
-    product.getAll().
+    product.getAll(req).
+    then(results=> res.status(200).send(results)).
+    catch(err=> next(err));
+});
+
+Router.get('/userProducts' ,  (req, res, next)=>{
+    product.sellerProducts(req).
     then(results=> res.status(200).send(results)).
     catch(err=> next(err));
 });
@@ -45,10 +51,22 @@ Router.get('/products/filter/:des', (req, res, next)=>{
     catch(err => next(err));
 })
 
+Router.post('/products/buy/:id',authorize("Customer"), (req, res, next)=>{
+    product.buy(req).
+    then(result => res.status(200).send(result)).
+    catch(err => next(err));
+})
+
 Router.put('/password', async(req, res, next)=>{
      service.changePass(req, next).
     then(result =>  res.status(200).send(result)).
-    catch(err => res.status(400).send(err))
+    catch(err => next(err))
+})
+
+Router.delete('/:id', (req , res, next)=>{
+    service.delete_Seller(req).
+    then(result => res.status(200).send(result)).
+    catch(err => next(err));
 })
 
 module.exports = Router;
