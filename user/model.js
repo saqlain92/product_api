@@ -28,6 +28,7 @@ schema.pre('save', function (next) {
             this.amount = balance;
             return next();
         }
+        else next();
     }
     catch (error) {
         next(error);

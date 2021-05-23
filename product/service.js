@@ -19,7 +19,9 @@ async function add(req, next) {
                     description: req.body.description,
                     img: "/static/" + req.file.filename,
                     owner: req.user._id,
-                    price: req.body.price
+                    price: req.body.price,
+                    category : req.body.category,
+                    stock : req.body.stock
                     // img: uploadDir + req.file.filename
 
                 });
@@ -28,7 +30,10 @@ async function add(req, next) {
                 _product = new Product({
                     name: req.body.name,
                     description: req.body.description,
-                    owner: req.user._id
+                    owner: req.user._id,
+                    price: req.body.price,
+                    category : req.body.category,
+                    stock : req.body.stock
                 });
 
             }
@@ -108,7 +113,7 @@ async function _delete(id) {
 
 async function sellerProducts(req){
  
-    return await User.find({_id : req.user._id}).populate('products');
+    return await Product.find({owner : req.user._id}).populate('products');
     
 }
 
@@ -138,7 +143,10 @@ const storage = multer.diskStorage({
 function validate(req, res, next) {
     const schema = joi.object({
         name: joi.string().required(),
-        description: joi.string().required()
+        description: joi.string().required(),
+        stock: joi.number().required(),
+        category: joi.string().required(),
+        price: joi.number().required(),
     });
     validateRequest(req, res, next, schema);
 }
@@ -203,11 +211,16 @@ async function buy(req){
   if(product && buyer && seller){
     if(buyer.amount < product.price) throw new ErrorHandler("200","false","unsufficient balance")
     else{
+        if(product.stock<=0) throw new ErrorHandler("200", "false", "out of stock")
+        else{
+        product.stock = product.stock-1;
         buyer.amount -= product.price;
         seller.amount += product.price;
         await buyer.save();
         await seller.save();
+        await product.save();
         return {"message" : "bought sucessfully"};
+        }
     }
   }
 }
