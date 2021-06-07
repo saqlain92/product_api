@@ -1,0 +1,331 @@
+[{
+    "_id": {
+      "$oid": "6090df3c1dcb8a874f6f78e2"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [
+      {
+        "name": "Color",
+        "values": [
+          "Black",
+          "Pale Sky",
+          "Rose Bud"
+        ]
+      }
+    ],
+    "selectedAttributes": [],
+    "isVariable": true,
+    "productType": "main",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107190104lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg"
+    ],
+    "name": "Pale Sky & Black Lawn Stuff Embroidered 2 pcs Shirt ",
+    "sku": "ROS-COL-026",
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:44:28.806Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:46:31.184Z"
+    },
+    "slug": "Pale-Sky-and-Black-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107189695lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg",
+    "active": true,
+    "category": {
+      "$oid": "6049fd7505ec9502c9f8d1ef"
+    },
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090dff11dcb8a874f6f78e3"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Black"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107273229lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg"
+    ],
+    "name": "Pale Sky & Black Lawn Stuff Embroidered 2 pcs Shirt ",
+    "sku": "ROS-COL-026-01",
+    "mainProduct": {
+      "$oid": "6090df3c1dcb8a874f6f78e2"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:47:30.397Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:47:54.345Z"
+    },
+    "slug": "Pale-Sky-and-Black-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107271987lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e0141dcb8a874f6f78e4"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Pale Sky"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107302485lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg"
+    ],
+    "name": "Pale Sky & Black Lawn Stuff Embroidered 2 pcs Shirt ",
+    "sku": "ROS-COL-026-02",
+    "mainProduct": {
+      "$oid": "6090df3c1dcb8a874f6f78e2"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:48:05.088Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:48:23.582Z"
+    },
+    "slug": "Pale-Sky-and-Black-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107300074lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 11,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e02e1dcb8a874f6f78e5"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Rose Bud"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107330746lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg"
+    ],
+    "name": "Pale Sky & Black Lawn Stuff Embroidered 2 pcs Shirt ",
+    "sku": "ROS-COL-026-03",
+    "mainProduct": {
+      "$oid": "6090df3c1dcb8a874f6f78e2"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:48:31.636Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:50:18.762Z"
+    },
+    "slug": "Pale-Sky-and-Black-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107328322lawn-stuff-embroidered-2-pcs-shirt-and-trouser-11.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e0fd1dcb8a874f6f78e8"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [
+      {
+        "name": "Color",
+        "values": [
+          "Black",
+          "Topaz",
+          "Old Brick",
+          "Clay Ash"
+        ]
+      }
+    ],
+    "selectedAttributes": [],
+    "isVariable": true,
+    "productType": "main",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107704903lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg"
+    ],
+    "name": "Clay Ash & Old Brick Lawn Stuff Embroidered 2 pcs Shirt",
+    "sku": "ROS-COL-027",
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:51:57.809Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:55:23.335Z"
+    },
+    "slug": "Clay-Ash-and-Old-Brick-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107704148lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg",
+    "active": true,
+    "category": {
+      "$oid": "6049fd7505ec9502c9f8d1ef"
+    },
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e2011dcb8a874f6f78e9"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Black"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107834386lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg"
+    ],
+    "name": "Clay Ash & Old Brick Lawn Stuff Embroidered 2 pcs Shirt",
+    "sku": "ROS-COL-027-01",
+    "mainProduct": {
+      "$oid": "6090e0fd1dcb8a874f6f78e8"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:56:18.624Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:57:25.042Z"
+    },
+    "slug": "Clay-Ash-and-Old-Brick-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107830719lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e24e1dcb8a874f6f78ea"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Topaz"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107883267lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg"
+    ],
+    "name": "Clay Ash & Old Brick Lawn Stuff Embroidered 2 pcs Shirt",
+    "sku": "ROS-COL-027-02",
+    "mainProduct": {
+      "$oid": "6090e0fd1dcb8a874f6f78e8"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:57:35.960Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:58:04.347Z"
+    },
+    "slug": "Clay-Ash-and-Old-Brick-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107877356lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  },{
+    "_id": {
+      "$oid": "6090e2771dcb8a874f6f78eb"
+    },
+    "featured": false,
+    "onSale": false,
+    "attributes": [],
+    "selectedAttributes": [
+      {
+        "name": "Color",
+        "value": "Old Brick"
+      }
+    ],
+    "isVariable": false,
+    "productType": "variant",
+    "gallery": [
+      "https://bazar-247.s3.us-east-2.amazonaws.com/1620107923351lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg"
+    ],
+    "name": "Clay Ash & Old Brick Lawn Stuff Embroidered 2 pcs Shirt",
+    "sku": "ROS-COL-027-03",
+    "mainProduct": {
+      "$oid": "6090e0fd1dcb8a874f6f78e8"
+    },
+    "user": {
+      "$oid": "6089344abaae223ef3ad5dfa"
+    },
+    "createdAt": {
+      "$date": "2021-05-04T05:58:16.349Z"
+    },
+    "updatedAt": {
+      "$date": "2021-05-04T05:58:44.437Z"
+    },
+    "slug": "Clay-Ash-and-Old-Brick-Lawn-Stuff-Embroidered-2-pcs-Shirt",
+    "mainImage": "https://bazar-247.s3.us-east-2.amazonaws.com/1620107921867lawn-stuff-embroidered-2-pcs-shirt-and-trouser-12.jpg",
+    "active": true,
+    "description": "&lt;p>Lawn Stuff Embroidered 2 pcs Shirt and trouser&lt;/p>",
+    "price": 2000,
+    "quantity": 10,
+    "regularPrice": 2000,
+    "weight": 1
+  }
+]
