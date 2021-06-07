@@ -3,8 +3,9 @@ const Router    = express.Router();
 const service   = require('../user/service');
 const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
+const complaintService = require('../complaint/service')
 
-Router.post('/products',authorize("Seller"), product.upload.single('img'),product.validate, (req, res, next)=>{
+Router.post('/products',authorize("Admin"), product.upload.single('img'),product.validate, (req, res, next)=>{
     product.add(req, next).
     then(result => res.status(200).send({result})).
     catch(err => next(err));
@@ -51,6 +52,8 @@ Router.get('/products/filter/:des', (req, res, next)=>{
     catch(err => next(err));
 })
 
+
+
 Router.post('/products/buy/:id',authorize("Customer"), (req, res, next)=>{
     product.buy(req).
     then(result => res.status(200).send(result)).
@@ -68,5 +71,7 @@ Router.delete('/:id', (req , res, next)=>{
     then(result => res.status(200).send(result)).
     catch(err => next(err));
 })
+
+
 
 module.exports = Router;

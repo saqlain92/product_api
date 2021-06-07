@@ -53,9 +53,16 @@ async function add(req, next) {
 }
 //     Product Search
 async function _search(req) {
+    const options = {
+        page: req.query.page || 1,
+        limit: req.query.limit || 10,
+        collation: {
+            locale: 'en',
+        }}
     const string = req.query.string;
     const field = req.query.field;
-    const result = await Product.find({ [field]: { $regex: string, $options: "i" } });
+    const result = await Product.paginate({ [field]: { $regex: string, $options: "i" }}, options);
+    //const result = await Product.find({ [field]: { $regex: string, $options: "i" } });
     if (result) return { success: "true", status: "200", message: `${result.length} documents found`, docs: result };
 };
 
@@ -71,7 +78,7 @@ async function getAll(req) {
         sort:req.query.field
     };
 
-    const { docs } = await Product.paginate({}, options);
+    const { docs } = await Product.paginate({owner : req.user.Id}, options);
     return docs;
 
     // console.log(typeof docs);

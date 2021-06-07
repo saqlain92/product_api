@@ -6,12 +6,19 @@ const User      = require('../user/model');
 const service   = require('../user/service');
 const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
+const complaintService = require('../complaint/service');
 
 Router.get('/products' ,  (req, res, next)=>{
     product.getAll(req).
     then(results=> res.status(200).send(results)).
     catch(err=> next(err));
 });
+
+Router.post('/products/complaint/:id' , (req, res, next )=>{
+  complaintService.createComplaint(req).
+  then(result => res.status(200).send(result)).
+  catch(err => next(err));
+})
 
 Router.get('/products/search', (req ,res, next)=>{
   product._search(req).
@@ -66,6 +73,18 @@ Router.post('/login', (req, res, next) => {
     product.filter(req.params.des).
     then(results => res.status(200).send(results)).
     catch(err => next(err));
+})
+
+Router.get('/products/complaints' , (req, res, next)=>{
+  complaintService.getComplaints().
+  then(result => res.status(200).send(result)).
+      catch(err => next(err));
+})
+
+Router.post('/products/complaints/:status/:id', (req, res, next)=>{
+  complaintService.updateStatus(req).
+  then(result => res.status(200).send(result)).
+  catch(err => next(err));
 })
 
 
