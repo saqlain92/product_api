@@ -5,7 +5,7 @@ const authorize = require('../helpers/authorize');
 const product   = require('../product/service');
 const complaintService = require('../complaint/service')
 
-Router.post('/products',authorize("Admin"), product.upload.single('img'),product.validate, (req, res, next)=>{
+Router.post('/products', product.upload.single('img'),product.validate, (req, res, next)=>{
     product.add(req, next).
     then(result => res.status(200).send({result})).
     catch(err => next(err));
@@ -70,6 +70,12 @@ Router.delete('/:id', (req , res, next)=>{
     service.delete_Seller(req).
     then(result => res.status(200).send(result)).
     catch(err => next(err));
+})
+
+Router.get('/products/Admincomplaints' ,(req, res, next)=>{
+    complaintService.adminComplaints(req).
+    then(result => res.status(200).send(result)).
+    catch(err => next(err))
 })
 
 

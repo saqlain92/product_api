@@ -18,11 +18,10 @@ async function add(req, next) {
                     name: req.body.name,
                     description: req.body.description,
                     img: "/static/" + req.file.filename,
-                    owner: req.user._id,
                     price: req.body.price,
                     category : req.body.category,
-                    stock : req.body.stock
-                    // img: uploadDir + req.file.filename
+                    stock : req.body.stock,
+                    city  : req.body.city
 
                 });
             }
@@ -30,20 +29,22 @@ async function add(req, next) {
                 _product = new Product({
                     name: req.body.name,
                     description: req.body.description,
-                    owner: req.user._id,
+
                     price: req.body.price,
                     category : req.body.category,
-                    stock : req.body.stock
+                    stock : req.body.stock,
+                    city  : req.body.city
                 });
 
             }
 
             console.log(_product.img);
             const product = await _product.save();
-            const _user = await User.findById(req.user._id);
-            _user.products.push(product._id);
-            _user.save();
-            return _user;
+            // const _user = await User.findById(req.user._id);
+            // _user.products.push(product._id);
+            // _user.save();
+            // return _user;
+            return product;
         }
 
     }
@@ -78,7 +79,7 @@ async function getAll(req) {
         sort:req.query.field
     };
 
-    const { docs } = await Product.paginate({owner : req.user.Id}, options);
+    const { docs } = await Product.paginate({}, options);
     return docs;
 
     // console.log(typeof docs);
@@ -118,9 +119,12 @@ async function _delete(id) {
     }
 };
 
+
+
+
 async function sellerProducts(req){
  
-    return await Product.find({owner : req.user._id}).populate('products');
+    return await Product.find({city : req.user.city}).populate('products');
     
 }
 
@@ -151,9 +155,10 @@ function validate(req, res, next) {
     const schema = joi.object({
         name: joi.string().required(),
         description: joi.string().required(),
-        stock: joi.number().required(),
+        stock: joi.string().required(),
         category: joi.string().required(),
         price: joi.number().required(),
+        city  : joi.string().required()
     });
     validateRequest(req, res, next, schema);
 }

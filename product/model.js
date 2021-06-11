@@ -10,9 +10,9 @@ const productModel = mongoose.Schema({
     category: String,
     description: String,
     stock: String,
+    city: String,
     img:String,
      createdDate: { type: Date, default: Date.now },
-     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 
 })
 

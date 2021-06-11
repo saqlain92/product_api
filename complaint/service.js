@@ -17,7 +17,12 @@ async function createComplaint(req){
 }
 
 async function getComplaints(req){
-    return await Complaint.find();
+    return await Complaint.find().populate({path : 'product' ,match : {city : 'Lahore'}});
+}
+
+async function adminComplaints(req){
+   // return await Complaint.populate({"product.city" : "req.user.city"});
+    return await Complaint.populate({product});
 }
 
 async function updateStatus(req){
@@ -28,5 +33,6 @@ async function updateStatus(req){
 module.exports = {
     createComplaint,
     getComplaints,
-    updateStatus
+    updateStatus,
+    adminComplaints
 }

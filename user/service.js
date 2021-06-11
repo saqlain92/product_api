@@ -28,8 +28,8 @@ function validate(req, res, next) {
     const schema = joi.object({
         email: joi.string().required(),
         password: joi.string().min(6).max(12).required(),
-        role: joi.string().valid('Admin', 'Customer', 'Seller').required(),
-        phone: joi.number().required()
+        role: joi.string().valid('cityAdmin', 'Customer', 'Munciple').required(),
+        city: joi.string().required()
     });
     validateRequest(req, res, next, schema);
 }

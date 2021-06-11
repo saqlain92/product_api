@@ -13,27 +13,26 @@ const schema = mongoose.Schema({
     role: {
         type: String
     },
-    amount : Number,
-    phone  : Number,
     products: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
-     }] 
+     }] ,
+     city : String
 })
 
-schema.pre('save', function (next) {
-    try {
-        if (this.isNew) {
-            const balance = this.amount || 0;
-            this.amount = balance;
-            return next();
-        }
-        else next();
-    }
-    catch (error) {
-        next(error);
-    }
-})
+// schema.pre('save', function (next) {
+//     try {
+//         if (this.isNew) {
+//             const balance = this.amount || 0;
+//             this.amount = balance;
+//             return next();
+//         }
+//         else next();
+//     }
+//     catch (error) {
+//         next(error);
+//     }
+// })
 
 schema.methods.isValidPassword = async function(password){
     const user = this;
