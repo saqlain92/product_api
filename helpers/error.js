@@ -16,7 +16,7 @@ const handleError = (err, res) => {
     
     res.status(500).json({  
       status: "error",
-      message: "mongoose error",
+      message: err || "mongoose error",
       kind: err.kind,
     });
   }
@@ -25,7 +25,7 @@ const handleError = (err, res) => {
     res.status(status || 500).json({
       success: success,
       status: "error",
-      message,
+      message: message || err,
     });
   }
 };

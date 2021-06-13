@@ -72,11 +72,25 @@ Router.delete('/:id', (req , res, next)=>{
     catch(err => next(err));
 })
 
+Router.get('/getcomplaints' , (req, res, next)=>{
+    complaintService.getComplaints(req).
+    then(result => res.status(200).send(result)).
+        catch(err => next(err));
+  })
+
 Router.get('/products/Admincomplaints' ,(req, res, next)=>{
     complaintService.adminComplaints(req).
     then(result => res.status(200).send(result)).
     catch(err => next(err))
 })
+
+Router.post('/products/complaint/:id' , (req, res, next )=>{
+    complaintService.createComplaint(req).
+    then(result => res.status(200).send(result)).
+    catch(err => next(err));
+  })
+
+
 
 
 

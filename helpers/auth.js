@@ -13,7 +13,7 @@ const checkToken = async function (req, res, next)  {
                 next(err);
             }
             req.user = user;
-            next();
+            return next();
     }
     else{
     next(new ErrorHandler("200","false","token required"));

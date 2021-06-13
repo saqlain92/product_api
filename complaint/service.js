@@ -8,7 +8,7 @@ async function createComplaint(req){
             product : req.params.id,
             message : req.body.message,
             status  : "pending",
-            complainterName : req.body.complainterName
+            complainterName : req.user.email
         });
         return await complaint.save();        
     }
@@ -17,7 +17,9 @@ async function createComplaint(req){
 }
 
 async function getComplaints(req){
-    return await Complaint.find().populate({path : 'product' ,match : {city : 'Lahore'}});
+    console.log("in get complaints");
+    const complaints = await Complaint.find().populate({path : 'product' ,match : {city : req.user.city }});
+    return complaints;
 }
 
 async function adminComplaints(req){
@@ -26,7 +28,7 @@ async function adminComplaints(req){
 }
 
 async function updateStatus(req){
-    const complaint = Complaint.findByIdAndUpdate(req.params.id, {status : req.params.status});
+    const complaint = Complaint.findByIdAndUpdate(req.body.id, {status : req.params.status});
     return await complaint;
 }
 

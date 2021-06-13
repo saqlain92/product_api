@@ -75,17 +75,14 @@ Router.post('/login', (req, res, next) => {
     catch(err => next(err));
 })
 
-Router.get('/products/complaints' , (req, res, next)=>{
-  complaintService.getComplaints().
-  then(result => res.status(200).send(result)).
-      catch(err => next(err));
-})
 
-Router.post('/products/complaints/:status/:id', (req, res, next)=>{
+
+Router.post('/products/complaints/:id', (req, res, next)=>{
   complaintService.updateStatus(req).
   then(result => res.status(200).send(result)).
   catch(err => next(err));
 })
+
 
 
 Router.get('/products/track/:id', (req, res, next)=>{
