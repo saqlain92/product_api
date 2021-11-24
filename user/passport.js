@@ -4,7 +4,7 @@ const passportJWT   = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT    = passportJWT.ExtractJwt;
 
-const User          = require('./model');
+const User          = require('../app/user/user.model');
 
 passport.use(new localStrategy({
   usernameField: 'email',

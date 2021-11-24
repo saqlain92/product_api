@@ -10,6 +10,7 @@ var uploadDir       = require('path').join(__dirname, '/uploads');
 const cors          = require('cors');
 const jwt           = require('jsonwebtoken');
 const secureRoutes  = require('./Routes/secured');
+const routes        = require('./app/routes');
 const {handleError} = require('./helpers/error');
 const { checkToken }= require('./helpers/auth');
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
@@ -35,15 +36,16 @@ morgan.token('user', function (req, res) {
 })
 app.use(morgan('User: :user  IP: :remote-addr :remote-user  Method::method    URL::url   Status::status   Response length::res[content-length]   Response time::response-time ms  at: :date ', {stream : accessLogStream}));
 app.options("*", cors());
+app.use('/swiftbay', routes);
 app.use( require('./Routes/public'));
 // to be accessible with token
 app.use('/user', checkToken , secureRoutes);
 // app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 
-mongoose.connect(config.connectionString,{ useNewUrlParser: true, useUnifiedTopology: true } )
+mongoose.connect(config.connectionString1,{ useNewUrlParser: true, useUnifiedTopology: true } )
     .then(console.log("connection with db successfull"))
-    .catch((err) => res.send(err));
+    .catch((err) => console.log(err));
 //error handler
     app.use((err, req, res, next) => {
         handleError(err, res);

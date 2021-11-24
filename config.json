@@ -1,7 +1,8 @@
-{
+{   
+    "connectionString1" : "mongodb://localhost:27017/swiftBay",
     "connectionString": "mongodb+srv://saqlain:92002400@mycluster.3jf9d.mongodb.net/test",
     "secret": "Its a new day",
     "port": "3000",
     "email": "haidrysaqlain92@gmail.com",
-    "pass": "personal@181012"
+    "pass": "Mtbc@181012"
 }
