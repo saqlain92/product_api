@@ -7,8 +7,8 @@ const schema = mongoose.Schema({
     seller: { type: Schema.Types.ObjectId, ref: 'Aser' },
     resturaunt: {type: Schema.Types.ObjectId, ref: 'Resturaunt' },
     description : {type : String},
-    price : {type : String},
-    salePrice : {type : String},
+    price : {type : Number},
+    salePrice : {type : Number},
     onSale : {type : Boolean, default: false},
     featured : {type: Boolean, default: false},
     isVariable: {type: Boolean, default: false},
@@ -21,19 +21,7 @@ const schema = mongoose.Schema({
     toJSON: { virtuals: true }
 })
 
-// schema.pre('save', function (next) {
-//     try {
-//         if (this.isNew) {
-//             const balance = this.amount || 0;
-//             this.amount = balance;
-//             return next();
-//         }
-//         else next();
-//     }
-//     catch (error) {
-//         next(error);
-//     }
-// })
+
 
 schema.plugin(paginate);
 const Product = mongoose.model('Aroduct', schema);

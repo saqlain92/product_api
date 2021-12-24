@@ -65,43 +65,6 @@ const deleteUser = async(userid)=> {
 }
 
 
-// async function phone_Login(body){
-//     if (body.phone){
-//         const user = await User.findOne({phone: body.phone});
-//         if (user){
-//             const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-//             return {
-//                 user,
-//                 success : true,
-//                 token
-//             }
-//         } 
-//         throw new ErrorHandler("200", "false", "user doesnt exist");
-//     }
-//     throw new ErrorHandler("200", "false", "Phone number is required"); 
-// }
-
-// // async function authenticate(body){
-// //     if(body.user && body.password){
-// //         const user = await User.findOne({user : body.user});
-// //         if(user && await bcrypt.compareSync(body.password , user.password)){
-// //             const token = jwt.sign(user.toJSON(), config.secret);
-// //             return {
-// //                 token
-// //             };
-// //         }
-// //     }
-// // }
-
-// async function delete_Seller(req) {
-//     if(req.params.id){
-//         const seller = await User.findByIdAndDelete(req.params.id);
-//         if(seller.role == "Seller") await Product.deleteMany({ owner:seller._id });
-//         return "message : deleted successfull";
-//     }
-//     else throw new ErrorHandler("200","false","id is not supplied");
-// }
-
 module.exports = {
     createUser,
     getUsers,
@@ -109,12 +72,5 @@ module.exports = {
     forgetPass,
     deleteUser
     
-    // login
-//  authenticate,
-    // validate,
-    // getAll,
-    // forgetPass,
-    // changePass,
-    // delete_Seller,
-    // phone_Login
+    
 }
