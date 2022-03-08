@@ -42,7 +42,7 @@ app.use('/swiftbay', routes);
 // app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 
-mongoose.connect(config.connectionString1,{ useNewUrlParser: true, useUnifiedTopology: true } )
+mongoose.connect(config.connectionString,{ useNewUrlParser: true, useUnifiedTopology: true })
     .then(console.log("connection with db successfull"))
     .catch((err) => console.log(err));
 //error handler
