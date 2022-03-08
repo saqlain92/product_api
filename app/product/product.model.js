@@ -24,5 +24,5 @@ const schema = mongoose.Schema({
 
 
 schema.plugin(paginate);
-const Product = mongoose.model('Aroduct', schema);
+const Product = mongoose.model('Product', schema);
 module.exports = Product;

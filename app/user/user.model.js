@@ -39,5 +39,5 @@
     }
 
 
-    const Aser = mongoose.model('Aser', schema);
-    module.exports = Aser;
+    const User = mongoose.model('User', schema);
+    module.exports = User;

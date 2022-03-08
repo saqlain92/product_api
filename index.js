@@ -3,13 +3,12 @@ const morgan        = require('morgan');
 const bodyParser    = require('body-parser');
 const fs            = require('fs');
 const config        = require('./config.json');
-const passport      = require('passport')
 const mongoose      = require('mongoose')
 var path            = require('path');
 var uploadDir       = require('path').join(__dirname, '/uploads');
 const cors          = require('cors');
 const jwt           = require('jsonwebtoken');
-const secureRoutes  = require('./Routes/secured');
+// const secureRoutes  = require('./Routes/secured');
 const routes        = require('./app/routes');
 const {handleError} = require('./helpers/error');
 const { checkToken }= require('./helpers/auth');
@@ -37,9 +36,9 @@ morgan.token('user', function (req, res) {
 app.use(morgan('User: :user  IP: :remote-addr :remote-user  Method::method    URL::url   Status::status   Response length::res[content-length]   Response time::response-time ms  at: :date ', {stream : accessLogStream}));
 app.options("*", cors());
 app.use('/swiftbay', routes);
-app.use( require('./Routes/public'));
+// app.use( require('./Routes/public'));
 // to be accessible with token
-app.use('/user', checkToken , secureRoutes);
+// app.use('/user', checkToken , secureRoutes);
 // app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 

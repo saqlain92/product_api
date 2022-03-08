@@ -1,7 +1,8 @@
 const userService = require("./user.service");
 const catchAsync = require("../helpers/catchAsync");
 const httpStatus = require("http-status");
-const passport = require("passport");
+// const passport = require("passport");
+const passport = require("./passport")
 const jwt = require("jsonwebtoken");
 
 
