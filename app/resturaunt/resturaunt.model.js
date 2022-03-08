@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt');
+// const bcrypt   = require('bcrypt');
 const paginate = require('../helpers/paginate');
 const Schema = mongoose.Schema;
 
