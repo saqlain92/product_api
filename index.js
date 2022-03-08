@@ -50,6 +50,6 @@ mongoose.connect(config.connectionString,{ useNewUrlParser: true, useUnifiedTopo
         handleError(err, res);
       });
 
-app.listen(config.port, () => {
+app.listen(process.env.PORT || config.port, () => {
     console.log(`listening on ${config.port}`);
 });
