@@ -2,7 +2,7 @@
     "connectionString1" : "mongodb://localhost:27017/swiftBay",
     "connectionString": "mongodb+srv://saqlain:92002400@mycluster.3jf9d.mongodb.net/swiftbay",
     "secret": "Its a new day",
-    "port": "8080",
+    "port": "3000",
     "email": "haidrysaqlain92@gmail.com",
     "pass": "Mtbc@181012"
 }
