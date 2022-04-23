@@ -1,15 +1,1 @@
-{   
-    "connectionString1" : "mongodb://localhost:27017/swiftBay",
-    "connectionString": "mongodb+srv://saqlain:92002400@mycluster.3jf9d.mongodb.net/swiftbay",
-    "secret": "Its a new day",
-    "port": "3000",
-    "email": "haidrysaqlain92@gmail.com",
-    "pass": "Mtbc@181012",
 
-    "awsAccessKeyId" : "AKIA272QF6V4CHOTXS6V",
-    "awsSecretAccesskey" : "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",
-    "awsRegion" : "us-east-2",
-    "awsBucketName" : "bazar-247"
-
-    
-}
