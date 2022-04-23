@@ -2,13 +2,17 @@ const Resturaunt = require('./resturaunt.model');
 const User = require('../user/user.model')
 const { ErrorHandler } = require('../helpers/error');
 
-const createRest = async (user, body) => {
+const createRest = async (user, body, file) => {
+    let image = file && file.productImage && file.productImage[0] && file.productImage[0].location;
+    let resturaunt = await Resturaunt.findOne({ name: body.name });
+    if (!!resturaunt) return { status: "400", success: "false", result: {}, message: "resturaunt already exists" }
     const rest = new Resturaunt({
         name: body.name,
         owner: user._id,
         description: body.description,
         city: body.city,
         address: body.address,
+        image: image || null
     })
 
     await rest.save();

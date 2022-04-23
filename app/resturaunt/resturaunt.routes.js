@@ -4,10 +4,11 @@ const validate = require('../helpers/validate');
 const restController = require('./resturaunt.controller');
 const restValidation = require('./resturaunt.validation');
 const router = express.Router();
+const upload = require('../helpers/files');
 
 router 
     .route('/')
-    .post(authorize('seller'), validate(restValidation.createRest), restController.createRest)
+    .post(authorize('seller'),upload.uploadImages, validate(restValidation.createRest),  restController.createRest)
     .get(validate(restValidation.getRests), restController.getResturaunts)
 
 router

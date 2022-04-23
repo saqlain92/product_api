@@ -9,6 +9,7 @@ const schema = mongoose.Schema({
     description : {type : String},
     city : {type: String},
     address : String,
+    image : String
     // cityCode : String,   
 }, {
     timestamps: true,

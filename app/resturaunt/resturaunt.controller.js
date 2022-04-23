@@ -5,7 +5,7 @@ const pick = require("../helpers/pick");
 const sanitize = require("../helpers/sanitize");
 
 const createRest = catchAsync(async (req, res, next) => {
-  const result = await restService.createRest(req.user, req.body);
+  const result = await restService.createRest(req.user, req.body, req.files);
   res.status(httpStatus.CREATED).send(result);
 });
 
