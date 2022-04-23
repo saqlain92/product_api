@@ -13,6 +13,9 @@ const MIME_TYPE_MAP = {
   "image/jpg": "jpg",
 };
 
+
+
+
 const storage = multerS3({
   limits: 500000,
   acl: "public-read",
